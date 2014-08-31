@@ -1,19 +1,29 @@
 package qfree
 
-import (
-	"fmt"
-	"testing"
-)
+import "testing"
 
 func TestQueue(t *testing.T) {
 	q := New()
-	q.Enqueue("hi")
-	fmt.Println(q.Dequeue())
-	q.Enqueue("hi")
-	q.Enqueue("hi")
-	fmt.Println(q.Dequeue())
-	fmt.Println(q.Dequeue())
-	fmt.Println(q.Dequeue())
+	q.Enqueue("hi1")
+	q.Enqueue("hi2")
+	q.Enqueue("hi3")
+	d, ok := q.Dequeue()
+	if d != "hi1" || !ok {
+		t.Error("expected 'hi1' but got", d, ok)
+	}
+	d, ok = q.Dequeue()
+	if d != "hi2" || !ok {
+		t.Error("expected 'hi1' but got", d, ok)
+	}
+	d, ok = q.Dequeue()
+	if d != "hi3" || !ok {
+		t.Error("expected 'hi1' but got", d, ok)
+	}
+
+	d, ok = q.Dequeue()
+	if ok || d != "" {
+		t.Error("expected no item to dequeue, but got", d, ok)
+	}
 }
 
 func BenchmarkQueue1Enq(b *testing.B) {
