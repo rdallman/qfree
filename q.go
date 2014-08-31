@@ -32,7 +32,7 @@ func (self *Queue) Dequeue() (string, bool) {
 
 func (self *Queue) enqueue2(x string) {
 	q := unsafe.Pointer(&Node{body: x, next: nil})
-	p := self.tail
+	p := atomic.LoadPointer(&self.tail)
 	oldp := p
 	for {
 		for ((*Node)(p)).next != nil {
